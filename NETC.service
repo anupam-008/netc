@@ -1,0 +1,17 @@
+[Unit]
+Description=Europa Daemon
+After=network.target
+
+[Service]
+PIDFile=/usr/local/europa/netc/NETC.pid
+User=perseus
+Group=perseus
+RuntimeDirectory=netc
+WorkingDirectory=/usr/local/europa/netc
+ExecStart=/usr/local/bin/gunicorn   netcapi:app -p /usr/local/europa/netc/NETC.pid -c conf.py
+ExecReload=/bin/kill -s HUP $PIDFile
+ExecStop=/bin/kill -s TERM $PIDFile
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
